@@ -1,0 +1,30 @@
+{
+  "name": "@akong/button",
+  "version": "0.1.0",
+  "description": "akong Button · 极简 · 跨端 (Web + React Native)",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "react-native": "./src/index.native.ts",
+      "default": "./src/index.ts"
+    },
+    "./style.css": "./src/Button.css"
+  },
+  "files": ["src", "README.md"],
+  "peerDependencies": {
+    "react": ">=18",
+    "@akong/tokens": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-native": { "optional": true }
+  },
+  "publishConfig": { "access": "public" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarnovo/akong-button.git"
+  },
+  "license": "UNLICENSED",
+  "private": false
+}
