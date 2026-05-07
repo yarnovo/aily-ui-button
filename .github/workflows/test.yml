@@ -18,18 +18,25 @@ jobs:
         with:
           node-version: '22'
 
-      # GHA 默认 ssh:// · 私有仓 ls-remote 撞 publickey 错
-      # 重写为 https:// + GITHUB_TOKEN · same-owner 私有仓 read 默认有权
-      - name: Configure git for private @akong/* deps
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global url."https://oauth2:${GH_TOKEN}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://oauth2:${GH_TOKEN}@github.com/".insteadOf "ssh://git@github.com/"
-          git config --global url."https://oauth2:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+      # 私有 @akong/* deps 在 CI 走 ssh:// 撞 publickey 错
+      # 用 actions/checkout 走 HTTPS + GITHUB_TOKEN 直接 clone 进本地 · 然后 dep 切 file:
+      # GITHUB_TOKEN 默认有 same-owner 私有仓 read 权
+      - uses: actions/checkout@v4
+        with:
+          repository: yarnovo/akong-tokens
+          path: .deps/akong-tokens
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: npm install
+      - name: Substitute @akong/tokens to local file path
+        run: |
+          npm pkg set "devDependencies.@akong/tokens=file:./.deps/akong-tokens"
+          rm -f package-lock.json
+
+      - name: Install
+        run: npm install
+
       - name: Type check
         run: npm run typecheck
+
       - name: Unit + Component tests
         run: npm test
