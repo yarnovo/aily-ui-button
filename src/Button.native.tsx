@@ -3,8 +3,6 @@
  *
  * Metro bundler 默认按 `.native.tsx` 后缀解析 RN 端 · `.tsx` 解析 Web 端
  * 用方 `import { Button } from '@akong/button'` 自动取对应平台
- *
- * 注意: 这里 import 'react-native' 是 peer dep · 只有 RN 项目能解析
  */
 
 import { Pressable, Text, View, ActivityIndicator, useColorScheme } from 'react-native'
@@ -65,15 +63,15 @@ export function Button(props: ButtonProps) {
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
       disabled={disabled || loading}
-      style={({ pressed }) => ({
+      style={({ pressed }: { pressed: boolean }) => ({
         height: variant === 'link' ? undefined : sz.height,
         paddingHorizontal: variant === 'link' ? 0 : sz.paddingH,
         backgroundColor: v.bg,
         borderRadius: variant === 'link' ? 0 : tokens.radius.full,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: fullWidth ? 'stretch' : 'flex-start',
+        flexDirection: 'row' as const,
+        alignItems: 'center' as const,
+        justifyContent: 'center' as const,
+        alignSelf: (fullWidth ? 'stretch' : 'flex-start') as 'stretch' | 'flex-start',
         opacity: disabled ? 0.4 : pressed ? 0.7 : 1,
         gap: tokens.space[2],
       })}
@@ -88,7 +86,7 @@ export function Button(props: ButtonProps) {
               style={{
                 color: v.fg as string,
                 fontSize: sz.fontSize,
-                fontWeight: tokens.weight.medium as '500',
+                fontWeight: tokens.weight.medium,
                 textDecorationLine: variant === 'link' ? 'underline' : 'none',
               }}
             >
