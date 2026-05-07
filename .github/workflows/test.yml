@@ -17,26 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      # 私有 @akong/* deps 在 CI 走 ssh:// 撞 publickey 错
-      # 用 actions/checkout 走 HTTPS + GITHUB_TOKEN 直接 clone 进本地 · 然后 dep 切 file:
-      # GITHUB_TOKEN 默认有 same-owner 私有仓 read 权
-      - uses: actions/checkout@v4
-        with:
-          repository: yarnovo/akong-tokens
-          path: .deps/akong-tokens
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Substitute @akong/tokens to local file path
-        run: |
-          npm pkg set "devDependencies.@akong/tokens=file:./.deps/akong-tokens"
-          rm -f package-lock.json
-
-      - name: Install
-        run: npm install
-
+      - run: npm install
       - name: Type check
         run: npm run typecheck
-
       - name: Unit + Component tests
         run: npm test
