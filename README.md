@@ -1,5 +1,7 @@
 # @akong/button
 
+> ← 回 [akong design system](https://yarnovo.github.io/akong-core/) 总站
+
 akong Button · 极简 · 跨端 (Web + React Native)
 
 ## Demo
