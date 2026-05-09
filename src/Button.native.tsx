@@ -2,11 +2,11 @@
  * akong Button · React Native 实现
  *
  * Metro bundler 默认按 `.native.tsx` 后缀解析 RN 端 · `.tsx` 解析 Web 端
- * 用方 `import { Button } from '@akong/button'` 自动取对应平台
+ * 用方 `import { Button } from '@aily-ui/button'` 自动取对应平台
  */
 
 import { Pressable, Text, View, ActivityIndicator, useColorScheme } from 'react-native'
-import { tokens } from '@akong/tokens'
+import { tokens } from '@aily-ui/tokens'
 import type { ButtonProps } from './Button.types'
 
 const sizes = {
